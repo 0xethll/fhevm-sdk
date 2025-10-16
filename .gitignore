@@ -9,3 +9,7 @@ packages/*/.turbo
 packages/*/coverage
 tmp*
 .vscode
+
+# Next.js
+.next/
+next-env.d.ts
