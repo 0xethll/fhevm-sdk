@@ -2,13 +2,14 @@ import { useState, useCallback, useEffect } from 'react'
 import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
 import { useEncrypt } from './useEncrypt'
 import { isAddress } from 'viem'
+import { Abi } from 'viem'
 
 /**
  * Parameters for useConfidentialTransfer hook
  */
 interface UseConfidentialTransferParams {
   contractAddress: `0x${string}`
-  abi: any[]
+  abi: Abi
   functionName?: string
   decimals?: number
 }

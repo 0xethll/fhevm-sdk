@@ -22,13 +22,12 @@
     "@fhevm/core": "workspace:*"
   },
   "peerDependencies": {
-    "react": "^18.0.0",
+    "react": "^19.1.0",
     "wagmi": "^2.0.0",
     "viem": "^2.0.0"
   },
   "devDependencies": {
-    "@types/react": "^18.0.0",
-    "react": "^18.0.0",
+    "@types/react": "^19",
     "tsup": "^8.0.0",
     "typescript": "^5.0.0"
   },

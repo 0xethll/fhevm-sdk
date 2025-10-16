@@ -1,13 +1,14 @@
 import { useState, useCallback, useEffect } from 'react'
 import { useAccount, useReadContract } from 'wagmi'
 import { useDecrypt } from './useDecrypt'
+import { Abi } from 'viem'
 
 /**
  * Parameters for useConfidentialBalance hook
  */
 interface UseConfidentialBalanceParams {
   contractAddress: `0x${string}`
-  abi: any[]
+  abi: Abi 
   functionName?: string
   decimals?: number
 }
