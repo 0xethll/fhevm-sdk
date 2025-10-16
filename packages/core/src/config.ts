@@ -1,16 +1,17 @@
-import { SepoliaConfig, FhevmInstanceConfig } from '@zama-fhe/relayer-sdk/bundle';
-
+import type { FhevmInstanceConfig } from '@zama-fhe/relayer-sdk/bundle';
 
 /**
  * Get network configuration
  */
-export function getNetworkConfig(
+export async function getNetworkConfig(
   network: 'sepolia' | FhevmInstanceConfig,
-): FhevmInstanceConfig {
+): Promise<FhevmInstanceConfig> {
   if (typeof network === 'string') {
     switch (network) {
-      case 'sepolia':
+      case 'sepolia': {
+        const { SepoliaConfig } = await import('@zama-fhe/relayer-sdk/web')
         return SepoliaConfig
+      }
       default:
         throw new Error(`Unknown network: ${network}`)
     }

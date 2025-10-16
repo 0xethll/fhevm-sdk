@@ -62,7 +62,7 @@ export async function createFHEVMClient(
   }
 
   // Get network config
-  const networkConfig = getNetworkConfig(options.network || 'sepolia')
+  const networkConfig = await getNetworkConfig(options.network || 'sepolia')
 
   // Create instance
   const config = {

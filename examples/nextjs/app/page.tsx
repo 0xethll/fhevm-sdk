@@ -12,7 +12,7 @@ import {
 
 // Example contract configuration
 const TOKEN_ADDRESS = '0x...' as `0x${string}` // Replace with your contract address
-const TOKEN_ABI = [] // Replace with your contract ABI
+const TOKEN_ABI: any[] = [] // Replace with your contract ABI
 
 export default function Home() {
   const { isReady, error: fhevmError, retry } = useFHEVM()
