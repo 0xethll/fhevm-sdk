@@ -1,5 +1,5 @@
 {
-  "name": "@fhevm/core",
+  "name": "@fhevmsdk/core",
   "version": "0.1.0",
   "description": "Framework-agnostic FHEVM SDK core",
   "main": "./dist/index.js",
