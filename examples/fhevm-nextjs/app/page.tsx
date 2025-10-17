@@ -11,9 +11,11 @@ import {
 } from '@fhevm/react'
 import { Abi } from 'viem'
 
+import { CONTRACTS } from '@/lib/contracts'
+
 // Example contract configuration
-const TOKEN_ADDRESS = '0x...' as `0x${string}` // Replace with your contract address
-const TOKEN_ABI: Abi = [] // Replace with your contract ABI
+const TOKEN_ADDRESS = CONTRACTS.CONFIDENTIAL_TOKEN.address as `0x${string}` 
+const TOKEN_ABI: Abi = CONTRACTS.CONFIDENTIAL_TOKEN.abi
 
 export default function Home() {
   const { isReady, error: fhevmError, retry } = useFHEVM()
