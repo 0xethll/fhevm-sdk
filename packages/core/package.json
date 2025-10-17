@@ -12,6 +12,15 @@
       "types": "./dist/index.d.ts"
     }
   },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/0xethll/fhevm-sdk.git"
+  },
+  "homepage": "https://github.com/0xethll/fhevm-sdk#readme",
+  "author": "devasher hlxstc680@gmail.com",
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
