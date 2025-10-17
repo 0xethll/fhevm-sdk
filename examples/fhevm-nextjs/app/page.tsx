@@ -161,6 +161,6 @@ export default function Home() {
           {encryptError && <p style={{ color: 'red' }}>{encryptError}</p>}
         </div>
       )}
-    </main>
+    </main> 
   )
 }

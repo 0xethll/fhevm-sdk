@@ -1,3 +1,6 @@
+// Import utils first to execute global polyfill
+import './utils'
+
 // Main exports
 export { initFHEVM, createFHEVMClient } from './client'
 

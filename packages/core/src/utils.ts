@@ -47,11 +47,16 @@ export function uint8ArrayToHex(arr: Uint8Array): `0x${string}` {
 }
 
 /**
+ * Polyfill for global object in browser environment
+ * Required for @zama-fhe/relayer-sdk compatibility
+ */
+if (typeof window !== 'undefined' && typeof (window as any).global === 'undefined') {
+  ;(window as any).global = window
+}
+
+/**
  * Check if code is running in browser environment
  */
 export function isBrowser(): boolean {
-  return (
-    typeof window !== 'undefined' &&
-    typeof (window as any).ethereum !== 'undefined'
-  )
+  return typeof window !== 'undefined' && typeof window.document !== 'undefined'
 }

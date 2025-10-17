@@ -45,6 +45,7 @@ const initializeFHEVMSingleton = async (
   // Start new initialization
   globalInitPromise = (async () => {
     try {
+      console.log('[FHEVMProvider] Starting initialization...')
       globalError = null
 
       // Check if ethereum provider is available
@@ -53,24 +54,30 @@ const initializeFHEVMSingleton = async (
           'Ethereum provider not available. Please install MetaMask.',
         )
       }
+      console.log('[FHEVMProvider] Ethereum provider available')
 
       // Initialize SDK
+      console.log('[FHEVMProvider] Calling initFHEVM...')
       await initFHEVM()
+      console.log('[FHEVMProvider] initFHEVM completed')
 
       // Create instance
+      console.log('[FHEVMProvider] Creating FHEVM client...')
       const client = await createFHEVMClient(options)
+      console.log('[FHEVMProvider] Client created:', client)
 
       globalFHEVMClient = client
       globalIsInitialized = true
       notifyStateChange()
 
+      console.log('[FHEVMProvider] Initialization complete!')
       return client
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : 'Failed to initialize FHEVM'
       globalError = errorMessage
       globalInitPromise = null
-      console.error('FHEVM initialization error:', err)
+      console.error('[FHEVMProvider] Initialization error:', err)
       notifyStateChange()
       throw err
     }
@@ -99,14 +106,18 @@ export function FHEVMProvider({
   network = 'sepolia',
   config,
 }: FHEVMProviderProps) {
+  const [client, setClient] = useState<FHEVMClient | null>(globalFHEVMClient)
+  const [isReady, setIsReady] = useState(globalIsInitialized)
   const [error, setError] = useState<string | null>(globalError)
   const isMountedRef = useRef(true)
 
   const clientConfig: CreateFHEVMClientOptions = config || { network }
 
-  // Update error state when global state changes
+  // Update all states when global state changes
   const updateState = useCallback(() => {
     if (!isMountedRef.current) return
+    setClient(globalFHEVMClient)
+    setIsReady(globalIsInitialized)
     setError(globalError)
   }, [])
 
@@ -149,8 +160,8 @@ export function FHEVMProvider({
   }, [clientConfig])
 
   const contextValue: FHEVMContextType = {
-    client: globalFHEVMClient,
-    isReady: globalIsInitialized && !!globalFHEVMClient && !error,
+    client,
+    isReady: isReady && !!client && !error,
     error,
     retry,
   }
