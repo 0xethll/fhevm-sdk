@@ -1,6 +1,6 @@
 {
   "name": "fhevm-nextjs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -16,8 +16,8 @@
     "react-dom": "19.1.0",
     "viem": "2.x",
     "wagmi": "^2.18.1",
-    "@fhevm/core": "workspace:*",
-    "@fhevm/react": "workspace:*"
+    "@fhevmsdk/core": "workspace:*",
+    "@fhevmsdk/react": "workspace:*"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

@@ -1,5 +1,5 @@
 import { useFHEVMContext } from '../FHEVMProvider'
-import type { FHEVMClient } from '@fhevm/core'
+import type { FHEVMClient } from '@fhevmsdk/core'
 
 /**
  * Return type for useFHEVM hook

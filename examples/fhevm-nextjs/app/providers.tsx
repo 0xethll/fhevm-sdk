@@ -3,7 +3,7 @@
 import { WagmiProvider } from 'wagmi'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ConnectKitProvider } from 'connectkit'
-import { FHEVMProvider } from '@fhevm/react'
+import { FHEVMProvider } from '@fhevmsdk/react'
 import { config } from '@/lib/wagmi'
 import { ReactNode } from 'react'
 

@@ -1,17 +1,17 @@
-# @fhevm/core
+# @fhevmsdk/core
 
 Framework-agnostic core SDK for FHEVM (Fully Homomorphic Encryption Virtual Machine).
 
 ## 📦 Installation
 
 ```bash
-npm install @fhevm/core viem
+npm install @fhevmsdk/core viem
 ```
 
 ## 🚀 Quick Start
 
 ```typescript
-import { initFHEVM, createFHEVMClient } from '@fhevm/core'
+import { initFHEVM, createFHEVMClient } from '@fhevmsdk/core'
 import { createWalletClient, custom } from 'viem'
 import { sepolia } from 'viem/chains'
 
@@ -142,7 +142,7 @@ Returns `bigint` - The decrypted value
 Format a bigint token amount for display.
 
 ```typescript
-import { formatTokenAmount } from '@fhevm/core'
+import { formatTokenAmount } from '@fhevmsdk/core'
 
 formatTokenAmount(1000000n, 6) // "1.0"
 formatTokenAmount(1500000n, 6) // "1.5"
@@ -153,7 +153,7 @@ formatTokenAmount(1500000n, 6) // "1.5"
 Parse a string amount to bigint.
 
 ```typescript
-import { parseTokenAmount } from '@fhevm/core'
+import { parseTokenAmount } from '@fhevmsdk/core'
 
 parseTokenAmount("1.5", 6) // 1500000n
 ```
@@ -163,7 +163,7 @@ parseTokenAmount("1.5", 6) // 1500000n
 Convert Uint8Array to hex string.
 
 ```typescript
-import { uint8ArrayToHex } from '@fhevm/core'
+import { uint8ArrayToHex } from '@fhevmsdk/core'
 
 uint8ArrayToHex(new Uint8Array([1, 2, 3])) // "0x010203"
 ```
@@ -173,7 +173,7 @@ uint8ArrayToHex(new Uint8Array([1, 2, 3])) // "0x010203"
 Check if code is running in browser environment.
 
 ```typescript
-import { isBrowser } from '@fhevm/core'
+import { isBrowser } from '@fhevmsdk/core'
 
 if (isBrowser()) {
   // Browser-specific code
@@ -189,7 +189,7 @@ if (isBrowser()) {
 ### Custom Network
 
 ```typescript
-import { createFHEVMClient, NetworkConfig } from '@fhevm/core'
+import { createFHEVMClient, NetworkConfig } from '@fhevmsdk/core'
 
 const customNetwork: NetworkConfig = {
   network: 'custom',
@@ -214,7 +214,7 @@ import type {
   DecryptParams,
   NetworkConfig,
   FhevmInstance,
-} from '@fhevm/core'
+} from '@fhevmsdk/core'
 ```
 
 ## ⚠️ Important Notes
@@ -227,7 +227,7 @@ import type {
 
 ## 🔗 Related Packages
 
-- [@fhevm/react](../react) - React hooks and components (uses wagmi + viem)
+- [@fhevmsdk/react](../react) - React hooks and components (uses wagmi + viem)
 - [@zama-fhe/relayer-sdk](https://www.npmjs.com/package/@zama-fhe/relayer-sdk) - Underlying FHE SDK
 - [viem](https://viem.sh) - TypeScript Interface for Ethereum
 

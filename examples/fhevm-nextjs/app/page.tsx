@@ -8,7 +8,7 @@ import {
   useDecrypt,
   useConfidentialBalance,
   useConfidentialTransfer,
-} from '@fhevm/react'
+} from '@fhevmsdk/react'
 import { Abi } from 'viem'
 
 import { CONTRACTS } from '@/lib/contracts'

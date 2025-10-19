@@ -9,8 +9,8 @@ import React, {
   useRef,
   useCallback,
 } from 'react'
-import type { FHEVMClient, CreateFHEVMClientOptions } from '@fhevm/core'
-import { initFHEVM, createFHEVMClient } from '@fhevm/core'
+import type { FHEVMClient, CreateFHEVMClientOptions } from '@fhevmsdk/core'
+import { initFHEVM, createFHEVMClient } from '@fhevmsdk/core'
 
 // Global singleton to prevent multiple initializations
 let globalFHEVMClient: FHEVMClient | null = null

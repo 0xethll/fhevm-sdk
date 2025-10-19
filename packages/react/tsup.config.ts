@@ -9,7 +9,7 @@ export default defineConfig({
 
   // External dependencies (not bundled)
   external: [
-    '@fhevm/core',  // Our core package
+    '@fhevmsdk/core',  // Our core package
     'react',        // React library
     'wagmi',        // Web3 React hooks
     'viem',         // Ethereum library (replaced ethers)

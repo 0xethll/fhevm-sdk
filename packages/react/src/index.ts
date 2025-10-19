@@ -16,10 +16,10 @@ export type {
   EncryptParams,
   DecryptParams,
   FHEVMClient,
-} from '@fhevm/core'
+} from '@fhevmsdk/core'
 
 export {
   formatTokenAmount,
   parseTokenAmount,
   uint8ArrayToHex,
-} from '@fhevm/core'
+} from '@fhevmsdk/core'

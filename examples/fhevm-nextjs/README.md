@@ -84,7 +84,7 @@ nextjs/
 import { WagmiProvider } from 'wagmi'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ConnectKitProvider } from 'connectkit'
-import { FHEVMProvider } from '@fhevm/react'
+import { FHEVMProvider } from '@fhevmsdk/react'
 
 export function Providers({ children }) {
   return (
@@ -108,7 +108,7 @@ import {
   useFHEVM,
   useConfidentialBalance,
   useConfidentialTransfer,
-} from '@fhevm/react'
+} from '@fhevmsdk/react'
 
 function Component() {
   const { isReady } = useFHEVM()
@@ -123,8 +123,8 @@ function Component() {
 
 ### FHEVM SDK Documentation
 
-- [@fhevm/core](../../packages/core/README.md) - Core SDK API
-- [@fhevm/react](../../packages/react/README.md) - React hooks API
+- [@fhevmsdk/core](../../packages/core/README.md) - Core SDK API
+- [@fhevmsdk/react](../../packages/react/README.md) - React hooks API
 
 ### Next.js Documentation
 

@@ -28,8 +28,8 @@ Thank you for your interest in contributing to FHEVM SDK! This document provides
 pnpm build
 
 # Build specific package
-pnpm --filter @fhevm/core build
-pnpm --filter @fhevm/react build
+pnpm --filter @fhevmsdk/core build
+pnpm --filter @fhevmsdk/react build
 ```
 
 ### Development Mode
@@ -39,7 +39,7 @@ pnpm --filter @fhevm/react build
 pnpm dev
 
 # Run specific package
-pnpm --filter @fhevm/core dev
+pnpm --filter @fhevmsdk/core dev
 ```
 
 ### Type Checking

@@ -15,8 +15,8 @@ A universal, framework-agnostic SDK for building confidential dApps with Zama's 
 
 This monorepo contains the following packages:
 
-- **[@fhevm/core](./packages/core)** - Framework-agnostic core SDK
-- **[@fhevm/react](./packages/react)** - React hooks and components
+- **[@fhevmsdk/core](./packages/core)** - Framework-agnostic core SDK
+- **[@fhevmsdk/react](./packages/react)** - React hooks and components
 
 ## 🏁 Quick Start
 
@@ -24,19 +24,19 @@ This monorepo contains the following packages:
 
 ```bash
 # Using pnpm (recommended for monorepo)
-pnpm add @fhevm/core @fhevm/react
+pnpm add @fhevmsdk/core @fhevmsdk/react
 
 # Using npm
-npm install @fhevm/core @fhevm/react
+npm install @fhevmsdk/core @fhevmsdk/react
 
 # Using yarn
-yarn add @fhevm/core @fhevm/react
+yarn add @fhevmsdk/core @fhevmsdk/react
 ```
 
 ### Basic Usage (React)
 
 ```tsx
-import { FHEVMProvider, useFHEVM, useConfidentialTransfer } from '@fhevm/react'
+import { FHEVMProvider, useFHEVM, useConfidentialTransfer } from '@fhevmsdk/react'
 import { WagmiProvider } from 'wagmi'
 
 // Wrap your app
@@ -78,7 +78,7 @@ function TransferComponent() {
 ### Basic Usage (Core - Framework Agnostic)
 
 ```typescript
-import { initFHEVM, createFHEVMClient } from '@fhevm/core'
+import { initFHEVM, createFHEVMClient } from '@fhevmsdk/core'
 import { createWalletClient, custom } from 'viem'
 import { sepolia } from 'viem/chains'
 
@@ -114,14 +114,14 @@ const decrypted = await client.decrypt({
 
 ### Core Package
 
-See [@fhevm/core documentation](./packages/core/README.md) for:
+See [@fhevmsdk/core documentation](./packages/core/README.md) for:
 - API Reference
 - Configuration options
 - Advanced usage
 
 ### React Package
 
-See [@fhevm/react documentation](./packages/react/README.md) for:
+See [@fhevmsdk/react documentation](./packages/react/README.md) for:
 - Available hooks
 - Provider configuration
 - Examples

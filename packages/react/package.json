@@ -1,6 +1,6 @@
 {
   "name": "@fhevmsdk/react",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "React hooks and components for FHEVM SDK",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -28,7 +28,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@fhevm/core": "workspace:*"
+    "@fhevmsdk/core": "workspace:*"
   },
   "peerDependencies": {
     "react": "^19.1.0",

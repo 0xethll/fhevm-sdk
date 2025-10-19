@@ -1,11 +1,11 @@
-# @fhevm/react
+# @fhevmsdk/react
 
 React hooks and components for FHEVM SDK with a wagmi-like API.
 
 ## 📦 Installation
 
 ```bash
-npm install @fhevm/react @fhevm/core wagmi viem ethers
+pnpm install @fhevmsdk/react @fhevmsdk/core wagmi viem
 ```
 
 ## 🚀 Quick Start
@@ -15,7 +15,7 @@ npm install @fhevm/react @fhevm/core wagmi viem ethers
 ```tsx
 import { WagmiProvider, createConfig } from 'wagmi'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { FHEVMProvider } from '@fhevm/react'
+import { FHEVMProvider } from '@fhevmsdk/react'
 
 const wagmiConfig = createConfig({ /* your config */ })
 const queryClient = new QueryClient()
@@ -40,7 +40,7 @@ import {
   useFHEVM,
   useConfidentialBalance,
   useConfidentialTransfer,
-} from '@fhevm/react'
+} from '@fhevmsdk/react'
 
 function TokenTransfer() {
   const { isReady } = useFHEVM()
@@ -235,7 +235,7 @@ import {
   useFHEVM,
   useConfidentialBalance,
   useConfidentialTransfer,
-} from '@fhevm/react'
+} from '@fhevmsdk/react'
 
 const TOKEN_ADDRESS = '0x...'
 const TOKEN_ABI = [/* ... */]
@@ -341,14 +341,14 @@ function TokenDApp() {
 
 ## 📝 TypeScript
 
-All hooks are fully typed. Import types from `@fhevm/core`:
+All hooks are fully typed. Import types from `@fhevmsdk/core`:
 
 ```typescript
 import type {
   FHEVMClient,
   EncryptedValue,
   NetworkConfig,
-} from '@fhevm/react'
+} from '@fhevmsdk/react'
 ```
 
 ## ⚠️ Important Notes
@@ -360,7 +360,7 @@ import type {
 
 ## 🔗 Related Packages
 
-- [@fhevm/core](../core) - Core SDK
+- [@fhevmsdk/core](../core) - Core SDK
 - [wagmi](https://wagmi.sh) - React hooks for Ethereum
 
 ## 📄 License

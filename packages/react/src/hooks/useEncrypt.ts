@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react'
 import { useAccount } from 'wagmi'
 import { useFHEVM } from './useFHEVM'
-import type { EncryptedValue } from '@fhevm/core'
-import { uint8ArrayToHex } from '@fhevm/core'
+import type { EncryptedValue } from '@fhevmsdk/core'
+import { uint8ArrayToHex } from '@fhevmsdk/core'
 
 /**
  * Encrypted value result with data and proof as hex strings
