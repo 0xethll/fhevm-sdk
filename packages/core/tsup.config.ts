@@ -9,7 +9,7 @@ export default defineConfig({
 
   // Core external dependencies
   external: [
-    'viem',                         // peer dependency (replaced ethers)
+    'viem',                         // peer dependency
     '@zama-fhe/relayer-sdk/bundle', // type import
     '@zama-fhe/relayer-sdk/web',    // dynamic import
   ],
