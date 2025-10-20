@@ -2,3 +2,6 @@
 	path = packages/hardhat
 	url = https://github.com/zama-ai/fhevm-hardhat-template
 	branch = main
+[submodule "packages/relayer-sdk"]
+	path = packages/relayer-sdk
+	url = git@asher.github.com:0xethll/relayer-sdk.git
