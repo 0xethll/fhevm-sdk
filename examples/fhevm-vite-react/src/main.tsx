@@ -2,20 +2,25 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
-import { WagmiProvider, createConfig, http } from 'wagmi'
+import { WagmiProvider, createConfig, http, fallback } from 'wagmi'
 import { sepolia } from 'wagmi/chains'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { FHEVMProvider } from '@fhevmsdk/react'
 import { injected } from 'wagmi/connectors'
 
 // Configure wagmi
+const sepoliaRpcUrl = import.meta.env.VITE_SEPOLIA_RPC_URL
+
 const config = createConfig({
   chains: [sepolia],
 
   connectors: [injected()], // MetaMask, Coinbase Wallet, etc.
 
   transports: {
-    [sepolia.id]: http(),
+    [sepolia.id]: fallback([
+      http(sepoliaRpcUrl),
+      http('https://ethereum-sepolia-rpc.publicnode.com'),
+    ]),
   },
 })
 
