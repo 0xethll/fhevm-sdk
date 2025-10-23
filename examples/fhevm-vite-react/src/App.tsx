@@ -11,7 +11,7 @@ function App() {
   return (
     <div className="app">
       <header>
-        <h1>🔐 Confidential Token App</h1>
+        <h1>🔐 Confidential Token App (Vite + react)</h1>
 
         <p>Privacy-preserving tokens powered by FHEVM</p>
 

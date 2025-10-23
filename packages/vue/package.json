@@ -1,0 +1,53 @@
+{
+  "name": "@fhevmsdk/vue",
+  "version": "0.2.0",
+  "description": "Vue composables for FHEVM SDK",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/0xethll/fhevm-sdk.git"
+  },
+  "homepage": "https://github.com/0xethll/fhevm-sdk#readme",
+  "author": "devasher hlxstc680@gmail.com",
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fhevmsdk/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0",
+    "@wagmi/vue": "^0.2.14",
+    "@tanstack/vue-query": "^5.90.5",
+    "viem": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.6.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0",
+    "vue": "^3.5.0"
+  },
+  "keywords": [
+    "fhevm",
+    "vue",
+    "composables",
+    "encryption",
+    "zama"
+  ],
+  "license": "MIT"
+}

@@ -44,9 +44,6 @@ export function WalletButton() {
   }, [isConnected, actualChainId, switchChain])
 
   const isWrongNetwork = isConnected && actualChainId && actualChainId !== sepolia.id
-  console.log('isConnected:', isConnected)
-  console.log('actualChainId:', actualChainId)
-  console.log('isWrongNetwork:', isWrongNetwork)
 
   if (isConnected && address) {
     return (
