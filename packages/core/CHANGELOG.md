@@ -1,5 +1,11 @@
 # @fhevmsdk/core
 
+## 0.2.1
+
+### Patch Changes
+
+- Switch to local relayer-sdk dependency and add helper function for runtime imports to ensure proper bundler handling in Vite/Next.js
+
 ## 0.2.0
 
 ### Minor Changes
