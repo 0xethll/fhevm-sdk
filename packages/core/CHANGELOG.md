@@ -1,5 +1,11 @@
 # @fhevmsdk/core
 
+## 0.2.2
+
+### Patch Changes
+
+- change the source of the @zama-fhe/relayer-sdk dependency
+
 ## 0.2.1
 
 ### Patch Changes

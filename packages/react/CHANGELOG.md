@@ -1,5 +1,12 @@
 # @fhevmsdk/react
 
+## 0.2.2
+
+### Patch Changes
+
+- Updated dependencies
+  - @fhevmsdk/core@0.2.2
+
 ## 0.2.1
 
 ### Patch Changes

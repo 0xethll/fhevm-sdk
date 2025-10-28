@@ -1,5 +1,11 @@
 # fhevm-vite-vue
 
+## 0.1.3
+
+### Patch Changes
+
+- @fhevmsdk/vue@0.2.1
+
 ## 0.1.2
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@fhevmsdk/vue",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Vue composables for FHEVM SDK",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
