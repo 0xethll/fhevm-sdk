@@ -296,7 +296,7 @@ export default defineConfig({
 
 ## Next Steps
 
-- **Learn More**: Check out the [Vue Guide](../guides/vue-guide) for advanced patterns
+- **Learn More**: Check out the [Vite Integration Guide](../guides/vite-integration) for advanced patterns
 - **API Reference**: Explore all [Vue composables](../api-reference/vue/setup)
 - **Examples**: See a complete [Vite + Vue example](../examples/vite-vue-example)
 - **Composition API**: Learn about [composable patterns](../guides/best-practices#composition-patterns)
