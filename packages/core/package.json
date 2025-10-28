@@ -28,7 +28,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@zama-fhe/relayer-sdk": "file:../relayer-sdk"
+    "@zama-fhe/relayer-sdk": "git+https://github.com/0xethll/relayer-sdk.git#chores/git-ref"
   },
   "devDependencies": {
     "tsup": "^8.0.0",
