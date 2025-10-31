@@ -6,11 +6,12 @@
  * 1. Initializing the FHEVM SDK
  * 2. Creating an FHEVM client with RPC provider
  * 3. Encrypting values
- * 4. Generating keypairs for decryption
+ * 4. Reading encrypted balances from contract
+ * 5. Decrypting values with EIP-712 signature
  */
 
 import { initFHEVM, createFHEVMClient } from '@fhevmsdk/core'
-import { createWalletClient, http, parseEther } from 'viem'
+import { createWalletClient, createPublicClient, http } from 'viem'
 import { sepolia } from 'viem/chains'
 import { privateKeyToAccount } from 'viem/accounts'
 import * as dotenv from 'dotenv'
@@ -18,18 +19,48 @@ import * as dotenv from 'dotenv'
 // Load environment variables
 dotenv.config()
 
-const RPC_URL = process.env.RPC_URL || 'https://eth-sepolia.public.blastapi.io'
-const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS as `0x${string}`
-const USER_ADDRESS = process.env.USER_ADDRESS as `0x${string}`
+const RPC_URL = process.env.RPC_URL || 'https://ethereum-sepolia-rpc.publicnode.com'
+const PRIVATE_KEY = process.env.PRIVATE_KEY as `0x${string}` | undefined
+
+// Confidential Token Contract (from examples/fhevm-vite-react)
+const CONFIDENTIAL_TOKEN = {
+  address: '0x78ab3a36B4DD7bB2AD45808F9C5dAe9a1c075C19' as const,
+  abi: [
+    {
+      inputs: [{ internalType: 'address', name: 'account', type: 'address' }],
+      name: 'confidentialBalanceOf',
+      outputs: [{ internalType: 'euint64', name: '', type: 'bytes32' }],
+      stateMutability: 'view',
+      type: 'function',
+    },
+    {
+      inputs: [],
+      name: 'decimals',
+      outputs: [{ internalType: 'uint8', name: '', type: 'uint8' }],
+      stateMutability: 'view',
+      type: 'function',
+    },
+  ] as const,
+}
 
 async function main() {
   console.log('🚀 FHEVM SDK Node.js Example\n')
   console.log('Environment: Node.js')
   console.log(`RPC URL: ${RPC_URL}`)
-  console.log(`Contract: ${CONTRACT_ADDRESS}`)
-  console.log(`User: ${USER_ADDRESS}\n`)
+
+  // Check required environment variables
+  if (!PRIVATE_KEY) {
+    console.error('❌ PRIVATE_KEY not set in .env file')
+    console.log('   Please add your private key to .env:')
+    console.log('   PRIVATE_KEY=0x...')
+    process.exit(1)
+  }
 
   try {
+    // Create wallet from private key
+    const account = privateKeyToAccount(PRIVATE_KEY)
+    console.log(`User Address: ${account.address}\n`)
+
     // Step 1: Initialize FHEVM SDK
     console.log('📦 Step 1: Initializing FHEVM SDK...')
     await initFHEVM()
@@ -46,40 +77,80 @@ async function main() {
 
     // Step 3: Encrypt a value
     console.log('🔐 Step 3: Encrypting a uint64 value...')
-    const valueToEncrypt = 1000000n
-    console.log(`   Value: ${valueToEncrypt}`)
+    const valueToEncrypt = 42000n
+    console.log(`   Value to encrypt: ${valueToEncrypt}`)
+    console.log(`   Contract: ${CONFIDENTIAL_TOKEN.address}`)
 
-    const encrypted = await client.encrypt.uint64({
+    const { handle, proof } = await client.encrypt.uint64({
       value: valueToEncrypt,
-      contractAddress: CONTRACT_ADDRESS,
-      userAddress: USER_ADDRESS,
+      contractAddress: CONFIDENTIAL_TOKEN.address,
+      userAddress: account.address,
     })
 
     console.log('✅ Value encrypted successfully')
-    console.log(`   Encrypted data: ${encrypted.data.slice(0, 50)}...`)
-    console.log(`   Encrypted data length: ${encrypted.data.length}\n`)
+    console.log(`   Encrypted handle: ${handle}`)
+    console.log(`   Proof length: ${proof.length} bytes\n`)
 
-    // Step 4: Generate keypair for user decryption
-    console.log('🔑 Step 4: Generating keypair for decryption...')
-    const keypair = client.instance.generateKeypair()
-    console.log('✅ Keypair generated')
-    console.log(`   Public key: ${keypair.publicKey.slice(0, 50)}...`)
-    console.log(`   Private key: ${keypair.privateKey.slice(0, 50)}...\n`)
+    // Step 4: Read encrypted balance from contract
+    console.log('📖 Step 4: Reading encrypted balance from contract...')
+    console.log(`   Contract: ${CONFIDENTIAL_TOKEN.address}`)
+    console.log(`   Reading confidentialBalanceOf(${account.address})...`)
 
-    // Step 5: Create EIP-712 signature structure
-    console.log('📝 Step 5: Creating EIP-712 signature structure...')
-    const eip712 = client.instance.createEIP712(
-      keypair.publicKey,
-      [CONTRACT_ADDRESS],
-      Math.floor(Date.now() / 1000), // startTimestamp
-      30, // durationDays
-    )
-    console.log('✅ EIP-712 structure created')
-    console.log(`   Domain: ${JSON.stringify(eip712.domain, null, 2)}`)
-    console.log(`   Primary type: ${eip712.primaryType}\n`)
+    // Create public client for reading
+    const publicClient = createPublicClient({
+      chain: sepolia,
+      transport: http(RPC_URL),
+    })
 
-    // Step 6: Get public key from instance
-    console.log('🔓 Step 6: Getting network public key...')
+    const encryptedBalance = await publicClient.readContract({
+      address: CONFIDENTIAL_TOKEN.address,
+      abi: CONFIDENTIAL_TOKEN.abi,
+      functionName: 'confidentialBalanceOf',
+      args: [account.address],
+    })
+
+    console.log('✅ Encrypted balance retrieved')
+    console.log(`   Ciphertext handle: ${encryptedBalance}\n`)
+
+    // Step 5: Decrypt the balance
+    console.log('🔓 Step 5: Decrypting balance...')
+    console.log('   Creating wallet client for signing...')
+
+    // Create wallet client for signing
+    const walletClient = createWalletClient({
+      account,
+      chain: sepolia,
+      transport: http(RPC_URL),
+    })
+
+    console.log('   📝 Generating keypair and signing EIP-712 message...')
+
+    let decryptedBalance
+    if (encryptedBalance != '0x0000000000000000000000000000000000000000000000000000000000000000') {
+      decryptedBalance = await client.decrypt({
+        ciphertextHandle: encryptedBalance,
+        contractAddress: CONFIDENTIAL_TOKEN.address,
+        walletClient,
+      })
+    } else {
+      decryptedBalance = 0n
+    }
+
+    console.log('✅ Decryption successful!')
+    console.log(`   Decrypted balance: ${decryptedBalance}`)
+
+    // Get decimals for proper formatting
+    const decimals = await publicClient.readContract({
+      address: CONFIDENTIAL_TOKEN.address,
+      abi: CONFIDENTIAL_TOKEN.abi,
+      functionName: 'decimals',
+    })
+
+    const formattedBalance = Number(decryptedBalance) / 10 ** Number(decimals)
+    console.log(`   Formatted balance: ${formattedBalance} tokens\n`)
+
+    // Step 6: Get network public key info
+    console.log('🔓 Step 6: Getting network public key info...')
     const publicKeyInfo = client.instance.getPublicKey()
     if (publicKeyInfo) {
       console.log('✅ Public key retrieved')
@@ -90,16 +161,21 @@ async function main() {
     }
 
     console.log('✨ All operations completed successfully!')
-    console.log('\n📌 Next steps:')
-    console.log('   - Set PRIVATE_KEY in .env to enable transaction signing')
-    console.log('   - Use client.decrypt() to decrypt values from contracts')
-    console.log('   - Integrate with your confidential smart contracts')
+    console.log('\n📌 Summary:')
+    console.log('   ✅ SDK initialized')
+    console.log('   ✅ Client created')
+    console.log('   ✅ Value encrypted')
+    console.log('   ✅ Encrypted balance read from contract')
+    console.log('   ✅ Balance decrypted successfully')
+    console.log(`   💰 Your balance: ${formattedBalance} tokens`)
 
   } catch (error) {
-    console.error('❌ Error:', error)
+    console.error('\n❌ Error:', error)
     if (error instanceof Error) {
       console.error('   Message:', error.message)
-      console.error('   Stack:', error.stack)
+      if (error.stack) {
+        console.error('   Stack:', error.stack)
+      }
     }
     process.exit(1)
   }

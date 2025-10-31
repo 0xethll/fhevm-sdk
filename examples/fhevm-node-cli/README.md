@@ -57,8 +57,8 @@ pnpm dev
 1. **Initializes FHEVM SDK** - Loads WASM modules for Node.js
 2. **Creates FHEVM client** - Using RPC URL instead of browser provider
 3. **Encrypts a value** - Demonstrates uint64 encryption
-4. **Generates keypair** - For user decryption operations
-5. **Creates EIP-712 structure** - For signing decryption requests
+4. **Reads encrypted balance** - From the confidential token contract
+5. **Decrypts balance** - Using EIP-712 signature (handled automatically by SDK)
 
 ## Key Differences from Browser
 
@@ -73,33 +73,52 @@ pnpm dev
 
 ```typescript
 import { initFHEVM, createFHEVMClient } from '@fhevmsdk/core'
+import { createWalletClient, createPublicClient, http } from 'viem'
+import { privateKeyToAccount } from 'viem/accounts'
 
-// Initialize (optional in Node.js, but recommended)
+// Create account from private key
+const account = privateKeyToAccount(process.env.PRIVATE_KEY)
+
+// Initialize SDK
 await initFHEVM()
 
-// Create client with RPC URL
+// Create FHEVM client with RPC URL
 const client = await createFHEVMClient({
   network: 'sepolia',
-  provider: 'https://eth-sepolia.public.blastapi.io', // RPC URL
+  provider: RPC_URL,
 })
 
-// Encrypt values
+// Encrypt a value
 const encrypted = await client.encrypt.uint64({
-  value: 1000000n,
-  contractAddress: '0x...',
-  userAddress: '0x...',
+  value: 42000n,
+  contractAddress: '0x78ab3a36B4DD7bB2AD45808F9C5dAe9a1c075C19',
+  userAddress: account.address,
 })
 
-// Generate keypair for decryption
-const keypair = client.instance.generateKeypair()
+// Read encrypted balance from contract
+const publicClient = createPublicClient({ chain: sepolia, transport: http(RPC_URL) })
+const encryptedBalance = await publicClient.readContract({
+  address: '0x78ab3a36B4DD7bB2AD45808F9C5dAe9a1c075C19',
+  abi: CONFIDENTIAL_TOKEN.abi,
+  functionName: 'confidentialBalanceOf',
+  args: [account.address],
+})
+
+// Decrypt the balance (EIP-712 signing handled automatically)
+const walletClient = createWalletClient({ account, chain: sepolia, transport: http(RPC_URL) })
+const decrypted = await client.decrypt({
+  ciphertextHandle: encryptedBalance,
+  contractAddress: '0x78ab3a36B4DD7bB2AD45808F9C5dAe9a1c075C19',
+  walletClient,
+})
+
+console.log(`Balance: ${decrypted}`)
 ```
 
 ## Environment Variables
 
 - `RPC_URL` - Ethereum RPC endpoint (default: Sepolia public RPC)
-- `CONTRACT_ADDRESS` - Your FHEVM contract address
-- `USER_ADDRESS` - User wallet address
-- `PRIVATE_KEY` (optional) - For signing transactions
+- `PRIVATE_KEY` - **Required** - Your wallet private key for signing EIP-712 messages
 
 ## Troubleshooting
 
