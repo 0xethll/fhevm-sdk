@@ -1,5 +1,13 @@
 # fhevm-nextjs
 
+## 0.1.4
+
+### Patch Changes
+
+- Updated dependencies
+  - @fhevmsdk/core@0.2.3
+  - @fhevmsdk/react@0.2.3
+
 ## 0.1.3
 
 ### Patch Changes

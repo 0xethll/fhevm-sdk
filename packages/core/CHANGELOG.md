@@ -1,5 +1,11 @@
 # @fhevmsdk/core
 
+## 0.2.3
+
+### Patch Changes
+
+- add support for nodejs
+
 ## 0.2.2
 
 ### Patch Changes
