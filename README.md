@@ -17,6 +17,7 @@ This monorepo contains the following packages:
 
 - **[@fhevmsdk/core](./packages/core)** - Framework-agnostic core SDK
 - **[@fhevmsdk/react](./packages/react)** - React hooks and components
+- **[@fhevmsdk/vue](./packages/vue)** - Vue composables
 
 ## 🏁 Quick Start
 
@@ -126,11 +127,16 @@ See [@fhevmsdk/react documentation](./packages/react/README.md) for:
 - Provider configuration
 - Examples
 
+### Vue Packages
+
 ## 🎯 Examples
 
 Check out the [examples](./examples) directory for complete implementations:
 
-- **[Next.js Example](./examples/nextjs)** - Full-featured Next.js app
+- **[Next.js Example](./examples/fhevm-nextjs)** - Full-featured Next.js app
+- **[Node CLI Example](./examples/fhevm-node-cli)** - Node.js CLI
+- **[React Example](./examples/fhevm-vite-react)** - React + Vite app
+- **[Vue Example](./examples/fhevm-vite-vue)** - Vue + Vite app
 
 ## 🏗️ Development
 
