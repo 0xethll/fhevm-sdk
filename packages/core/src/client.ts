@@ -18,59 +18,76 @@ import {
 import { decryptForUser } from './decrypt'
 import { isBrowser } from './utils'
 
-// Import types from bundle (type-only import)
-import type * as RelayerSDKTypes from '@zama-fhe/relayer-sdk/bundle'
-
 /**
  * Helper function to import the relayer SDK at runtime
- * Uses /web version - bundlers should handle CJS/ESM conversion
+ * Automatically selects the correct version based on environment:
+ * - Browser: Uses /web (with WASM initialization)
+ * - Node.js: Uses /node (native WASM bindings)
  */
-async function importRelayerSDK(): Promise<typeof RelayerSDKTypes> {
-  // Use the /web export which is officially supported
-  // Modern bundlers (Vite/Next.js) with shamefully-hoist=true
-  // will properly handle the keccak CJS dependency
-  const module = await import('@zama-fhe/relayer-sdk/web')
-  return module as typeof RelayerSDKTypes
+async function importRelayerSDK(): Promise<any> {
+  if (isBrowser()) {
+    // Browser environment: use web version with WASM
+    return await import('@zama-fhe/relayer-sdk/web')
+  } else {
+    // Node.js environment: use node version with native bindings
+    return await import('@zama-fhe/relayer-sdk/node')
+  }
 }
 
 /**
  * Initialize the FHEVM SDK
  * Must be called before creating any FHEVM instances
+ *
+ * Note: Only required in browser environments. Node.js environments
+ * automatically initialize WASM modules during import.
  */
 export async function initFHEVM(): Promise<void> {
-  if (!isBrowser()) {
-    throw new Error('FHEVM SDK can only be initialized in the browser')
-  }
-
-  // Use the helper function to import the full bundle
   const fheSdk = await importRelayerSDK()
 
-  if (!fheSdk.initSDK) {
-    throw new Error('initSDK function not available from FHEVM SDK')
+  // Only browser environment requires explicit initialization
+  if (isBrowser()) {
+    if (!fheSdk.initSDK) {
+      throw new Error('initSDK function not available from FHEVM SDK')
+    }
+    await fheSdk.initSDK()
   }
-
-  await fheSdk.initSDK()
+  // Node.js: WASM modules are auto-initialized via global.TFHE/TKMS
 }
 
 /**
  * Create an FHEVM client instance
  * @param options - Configuration options
  * @returns FHEVM client
+ *
+ * Supports both browser and Node.js environments:
+ * - Browser: Uses window.ethereum by default
+ * - Node.js: Requires explicit provider (RPC URL string)
  */
 export async function createFHEVMClient(
   options: CreateFHEVMClientOptions = {},
 ): Promise<FHEVMClient> {
-  if (!isBrowser()) {
-    throw new Error('FHEVM client can only be created in the browser')
+  // Get provider based on environment
+  let provider: any
+
+  if (isBrowser()) {
+    // Browser: default to window.ethereum
+    provider = options.provider || (window as any).ethereum
+    if (!provider) {
+      throw new Error(
+        'Ethereum provider not available. Please provide options.provider or install a wallet extension.',
+      )
+    }
+  } else {
+    // Node.js: must provide explicit provider (RPC URL or custom provider)
+    provider = options.provider
+    if (!provider) {
+      throw new Error(
+        'Node.js environment requires explicit provider. Please provide options.provider (RPC URL string or EIP-1193 provider).',
+      )
+    }
   }
 
-  // Get provider (default to window.ethereum)
-  const provider = options.provider || (window as any).ethereum
-  if (!provider) {
-    throw new Error('Ethereum provider not available')
-  }
-
-  // Use the helper function to import the full bundle
+  // Use the helper function to import the correct SDK version
   const fheSdk = await importRelayerSDK()
 
   if (!fheSdk.createInstance) {
