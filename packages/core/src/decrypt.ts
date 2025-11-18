@@ -79,5 +79,5 @@ export async function decryptForUser(
     durationDays,
   )
 
-  return BigInt(result[ciphertextHandle])
+  return BigInt(ciphertextHandle)
 }

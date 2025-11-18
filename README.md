@@ -165,8 +165,12 @@ fhevm-sdk/
 ├── packages/
 │   ├── core/          # Framework-agnostic core
 │   └── react/         # React bindings
+│   └── vue/           # vue bindings
 ├── examples/
 │   └── nextjs/        # Next.js example
+│   └── react/         # react example
+│   └── vue/           # vue example
+│   └── nodejs/        # node example
 └── package.json       # Monorepo root
 ```
 
