@@ -1,5 +1,13 @@
 # fhevm-vite-react
 
+## 0.1.4
+
+### Patch Changes
+
+- Updated dependencies
+  - @fhevmsdk/core@0.3.0
+  - @fhevmsdk/react@0.3.0
+
 ## 0.1.3
 
 ### Patch Changes

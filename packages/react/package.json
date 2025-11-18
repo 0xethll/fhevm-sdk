@@ -1,6 +1,6 @@
 {
   "name": "@fhevmsdk/react",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "React hooks and components for FHEVM SDK",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

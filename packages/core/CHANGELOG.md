@@ -1,5 +1,11 @@
 # @fhevmsdk/core
 
+## 0.3.0
+
+### Minor Changes
+
+- bump to relayer 0.3.0-5
+
 ## 0.2.3
 
 ### Patch Changes
